@@ -1,0 +1,95 @@
+# Dependencies
+/vendor/
+
+# Local environment and private configuration
+.env
+.env.*
+!.env.example
+/config/database.php
+/config/database.local.php
+/config/*.local.php
+/config/infosConnexion.txt
+/config/*secret*
+/config/*credential*
+/credentials/
+*temporary-admin-credentials*
+*credential-delivery*
+
+# Database dumps, backups, and exports
+*.sql
+*.sql.gz
+*.dump
+*.bak
+*.backup
+*.bkp
+*.zip
+*.7z
+*.rar
+*.tar
+*.gz
+/database/exports/
+/exports/
+/uploads/
+/uploads/exports/
+*citoyen*export*
+*vaccination*export*
+
+# Reviewed source SQL that must remain versioned
+!/database/migrations/
+!/database/migrations/*.sql
+!/database/schema.sql
+!/database/demo/
+!/database/demo/*.sql
+!/tests/fixtures/sql/
+!/tests/fixtures/sql/*.sql
+
+# Logs, caches, sessions, and temporary files
+*.log
+*.session
+*.cookie
+*.cookies
+/runtime/
+/tmp/
+/temp/
+/tests/runtime/
+/tests/.runtime/
+/cache/
+/logs/
+/log/
+*.tmp
+*.temp
+*.swp
+*.swo
+*~
+.phpunit.cache/
+.phpunit.result.cache
+/coverage/
+/build/coverage/
+
+# Browser and QA artifacts
+/browser-data/
+/screenshots-private/
+/cookie-jar*
+*.har
+
+# Private and generated directories
+/private/
+/backups/
+/backup/
+/private_backups/
+
+# Local XAMPP and machine-specific settings
+xampp-control.ini
+php.ini
+my.ini
+httpd-vhosts.conf
+/config/xampp*.php
+
+# IDE and OS metadata
+.idea/
+.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
+desktop.ini
+Desktop.ini
