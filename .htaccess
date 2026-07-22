@@ -1,0 +1,26 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule "(^|/)(?:backup|backups|log|logs|private|secrets|exports|tmp|temp)(?:/|$)" - [F,L,NC]
+</IfModule>
+
+<IfModule mod_authz_core.c>
+    <FilesMatch "^\.">
+        Require all denied
+    </FilesMatch>
+    <FilesMatch "(?i)^(?:\.env(?:\..*)?|.*\.(?:sql|bak|backup|log|ini)|(?:infosconnexion|.*(?:secret|credential|credentials|connexion|config).*)\.(?:txt|json))$">
+        Require all denied
+    </FilesMatch>
+</IfModule>
+
+<IfModule !mod_authz_core.c>
+    <FilesMatch "^\.">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+    <FilesMatch "(?i)^(?:\.env(?:\..*)?|.*\.(?:sql|bak|backup|log|ini)|(?:infosconnexion|.*(?:secret|credential|credentials|connexion|config).*)\.(?:txt|json))$">
+        Order allow,deny
+        Deny from all
+    </FilesMatch>
+</IfModule>

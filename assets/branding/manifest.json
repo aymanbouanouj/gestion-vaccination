@@ -1,0 +1,111 @@
+{
+  "README.txt": {
+    "bytes": 1121,
+    "dimensions": null,
+    "sha256": "8f1d4e8bc1a1b286cdb5c43fc4a6eac4a759d720d714e8fde138d4cdd342fd5c"
+  },
+  "apple-touch-icon.png": {
+    "bytes": 29555,
+    "dimensions": [
+      180,
+      180
+    ],
+    "sha256": "60f21cf0d20f9fd10a8a363f9352894535251ecdbd8a4b61197ddb6cdada4afa"
+  },
+  "favicon-16x16.png": {
+    "bytes": 729,
+    "dimensions": [
+      16,
+      16
+    ],
+    "sha256": "70cf7a7a5710971149b771b9c4d7909d164a15d1b2fd5dcc87bac1d410d12efe"
+  },
+  "favicon-32x32.png": {
+    "bytes": 2002,
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "678b622d8c2c38c6dcc13320ee06e07e906df534a3309727de92f0118259c80a"
+  },
+  "favicon.ico": {
+    "bytes": 91002,
+    "dimensions": [
+      256,
+      256
+    ],
+    "sha256": "4678ea5ee8909d0800379fdb2a6d49d610c9d649373e5d2648f06fea9602a7cb"
+  },
+  "logo-full-dark.png": {
+    "bytes": 1207514,
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "sha256": "4ca54f1d119ff883d1e45e6dcfa4f84b11e79f24adf8e86adf198bb6786eb4ab"
+  },
+  "logo-full-light.png": {
+    "bytes": 970784,
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "sha256": "83c87d3fe73efdf423b54ddd0af66a74ec6ca013b6226adeeecc457906848876"
+  },
+  "logo-icon-128.png": {
+    "bytes": 16212,
+    "dimensions": [
+      128,
+      128
+    ],
+    "sha256": "7b7a2248c2411547ea4e5fddc640a07736a8ac677b5a1dc2e8ec22e77813f74d"
+  },
+  "logo-icon-192.png": {
+    "bytes": 32888,
+    "dimensions": [
+      192,
+      192
+    ],
+    "sha256": "e1e6ad5643451b3b18fc6f78369492e536658183981f235918d3876a0dcbbd8c"
+  },
+  "logo-icon-32.png": {
+    "bytes": 2002,
+    "dimensions": [
+      32,
+      32
+    ],
+    "sha256": "678b622d8c2c38c6dcc13320ee06e07e906df534a3309727de92f0118259c80a"
+  },
+  "logo-icon-512.png": {
+    "bytes": 221719,
+    "dimensions": [
+      512,
+      512
+    ],
+    "sha256": "1e8b917cdbf0c330c8a98bc7d376ed7fa40a2f623db933b66f66b4622ac0c7f3"
+  },
+  "logo-icon-64.png": {
+    "bytes": 5635,
+    "dimensions": [
+      64,
+      64
+    ],
+    "sha256": "1831a171e3c4e2299c268a5d0f9802be8e6b4e5ec12e083cfe66aaedf6bb68bf"
+  },
+  "logo-icon.png": {
+    "bytes": 959569,
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "sha256": "a7d657051fdf242146bc3df3eb51a5ab691fb7454cea2b1b7ac56231bce8487e"
+  },
+  "logo-source.png": {
+    "bytes": 959569,
+    "dimensions": [
+      1254,
+      1254
+    ],
+    "sha256": "a7d657051fdf242146bc3df3eb51a5ab691fb7454cea2b1b7ac56231bce8487e"
+  }
+}
