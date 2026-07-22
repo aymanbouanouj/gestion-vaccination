@@ -1,0 +1,104 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.event_name == 'workflow_dispatch' && format('{0}-{1}-{2}', github.workflow, github.ref, github.run_id) || format('{0}-{1}', github.workflow, github.event.pull_request.number || github.ref) }}
+  cancel-in-progress: true
+
+jobs:
+  phpunit:
+    name: PHP 8.2 / MariaDB 10.4
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI_MARIADB_ROOT_PASSWORD: ci_root_password_for_isolated_tests_only
+      GV_TEST_DB_HOST: 127.0.0.1
+      GV_TEST_DB_NAME: compagnevaccination_ci_test
+      GV_TEST_DB_ADMIN_HOST: 127.0.0.1
+      GV_TEST_DB_ADMIN_PORT: "3306"
+      GV_TEST_DB_ADMIN_USER: root
+      GV_TEST_DB_ADMIN_PASSWORD: ci_root_password_for_isolated_tests_only
+    services:
+      mariadb:
+        image: mariadb:10.4
+        env:
+          MARIADB_ROOT_PASSWORD: ci_root_password_for_isolated_tests_only
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping --host=127.0.0.1 --user=root --password=$MARIADB_ROOT_PASSWORD --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=12
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP 8.2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          coverage: none
+          tools: composer:v2
+          extensions: curl, dom, mbstring, mysqli, xml
+
+      - name: Resolve Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Composer downloads
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Show PHP version
+        run: php -v
+
+      - name: Validate Composer metadata
+        run: composer validate --no-check-publish
+
+      - name: Install locked dependencies
+        run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Audit locked dependencies
+        run: composer audit
+
+      - name: Wait for isolated MariaDB readiness
+        run: |
+          php <<'PHP'
+          <?php
+          mysqli_report(MYSQLI_REPORT_OFF);
+
+          $host = getenv('GV_TEST_DB_ADMIN_HOST') ?: '127.0.0.1';
+          $user = getenv('GV_TEST_DB_ADMIN_USER') ?: 'root';
+          $password = getenv('GV_TEST_DB_ADMIN_PASSWORD') ?: '';
+          $port = (int) (getenv('GV_TEST_DB_ADMIN_PORT') ?: '3306');
+          $deadline = microtime(true) + 60.0;
+
+          do {
+              $connection = @new mysqli($host, $user, $password, '', $port);
+              if ($connection instanceof mysqli && $connection->connect_errno === 0) {
+                  $connection->close();
+                  exit(0);
+              }
+
+              usleep(500000);
+          } while (microtime(true) < $deadline);
+
+          fwrite(STDERR, "MariaDB service did not become ready in time.\n");
+          exit(1);
+          PHP
+
+      - name: Run permanent isolated test suite
+        run: composer test

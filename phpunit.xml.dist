@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    colors="true"
+    cacheResult="false"
+    failOnRisky="true"
+    failOnWarning="true"
+>
+    <testsuites>
+        <testsuite name="gestion-vaccination">
+            <directory>tests/Unit</directory>
+            <directory>tests/Integration</directory>
+            <directory>tests/Http</directory>
+            <directory>tests/Security</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory>config</directory>
+            <directory>pages</directory>
+            <file>index.php</file>
+            <file>test_connexion.php</file>
+        </include>
+    </source>
+</phpunit>
