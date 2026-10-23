@@ -318,6 +318,17 @@ final class TestEnvironment
 
         $port = self::pickFreePort();
         $documentRoot = dirname(self::projectRoot());
+        if (getenv('GITHUB_ACTIONS') === 'true') {
+            // The application requires /gestion_vaccination, whereas GitHub
+            // checks it out into a directory named gestion-vaccination.
+            $documentRoot = self::runtimePath('http-document-root');
+            if (!mkdir($documentRoot, 0700) && !is_dir($documentRoot)) {
+                throw new RuntimeException('Unable to create the isolated HTTP document root.');
+            }
+            if (!symlink(self::projectRoot(), $documentRoot . '/gestion_vaccination')) {
+                throw new RuntimeException('Unable to create the CI-only application path alias.');
+            }
+        }
         $logPath = self::runtimePath('php-server.log');
         $command = escapeshellarg(PHP_BINARY)
             . ' -d session.save_path=' . escapeshellarg($sessionDirectory)
@@ -655,6 +666,13 @@ final class TestEnvironment
     {
         $normalizedHost = strtolower(trim($databaseHost));
         if ($normalizedHost === '' || $normalizedHost === 'localhost' || $normalizedHost === '127.0.0.1') {
+            // Hosted CI connects to the MariaDB service via the Docker gateway,
+            // not from a localhost MySQL user identity. CI's disposable user
+            // is restricted to the randomly credentialed isolated test database.
+            if (getenv('GITHUB_ACTIONS') === 'true' && getenv('GV_TEST_DB_NAME') === 'compagnevaccination_ci_test') {
+                return ['localhost', '127.0.0.1', '%'];
+            }
+
             return ['localhost', '127.0.0.1'];
         }
 
