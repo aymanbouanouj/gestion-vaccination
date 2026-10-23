@@ -655,6 +655,13 @@ final class TestEnvironment
     {
         $normalizedHost = strtolower(trim($databaseHost));
         if ($normalizedHost === '' || $normalizedHost === 'localhost' || $normalizedHost === '127.0.0.1') {
+            // Hosted CI connects to the MariaDB service via the Docker gateway,
+            // not from a localhost MySQL user identity. CI's disposable user
+            // is restricted to the randomly credentialed isolated test database.
+            if (getenv('GITHUB_ACTIONS') === 'true' && getenv('GV_TEST_DB_NAME') === 'compagnevaccination_ci_test') {
+                return ['localhost', '127.0.0.1', '%'];
+            }
+
             return ['localhost', '127.0.0.1'];
         }
 
